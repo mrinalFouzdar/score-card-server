@@ -22,7 +22,7 @@ passport.use("localAdm",
             if(user.length > 0) {
                 console.log("password",password)
                 const isMatch = await isValidPassword(password,user[0].password);
-                console.log(isMatch)
+                // console.log(isMatch)
                 if(!isMatch){
                     return done(null,{id:0,});
                 }
