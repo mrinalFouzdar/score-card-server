@@ -34,6 +34,7 @@ module.exports = {
       let adm_data = {
         id: cryptr.encrypt(req.user.id),
         name: cryptr.encrypt(req.user.username),
+				user_agent: cryptr.encrypt(req.get('User-Agent')),
       };
       const token = AdmloginToken(adm_data);
 
@@ -43,4 +44,8 @@ module.exports = {
         return res.status(400).json({ status: 2, errors: err_data });
     }
   },
+
+  result_data: async(req,res,next)=>{
+    console.log("req.value",req.value);
+  }
 };
