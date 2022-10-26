@@ -12,6 +12,7 @@ module.exports = {
                     //     console.log(error);
                     // }
                     // console.log(value);
+                    console.log("first")
             if(error){
                 let err_msg = {};
                 for( let counter in error.details){
@@ -28,7 +29,7 @@ module.exports = {
                 req.value={}
             }
             req.value=value;
-            console.log(req.value);
+            // console.log(req.value);
             next();
 
         }

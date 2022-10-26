@@ -11,7 +11,6 @@ module.exports = {
             // console.log("schema",schema)
             // const { error, value } = Joi.validate(req.body,schema,{abortEarly:false});
 			const {value,error}  = Joi.validate(req.body, schema, { abortEarly: false });
-            // console.log("result",result);
             // console.log("error",error)
             if(error){
                 let err_msg = {};
