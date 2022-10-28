@@ -1,5 +1,6 @@
 const { join } = require('bluebird');
 const Joi = require('joi');
+const { as } = require('pg-promise');
 
 module.exports = {
     validateBody: (schema)=>{
@@ -29,11 +30,17 @@ module.exports = {
                 req.value={}
             }
             req.value=value;
-            // console.log(req.value);
+            // console.log("req.value",req.value.studenet_info);
+            // let findStudenDetails = await 
+            // let err={}
+
+
             next();
 
         }
     },
+
+
 
     schemas:{
         userSchema: Joi.object().keys({

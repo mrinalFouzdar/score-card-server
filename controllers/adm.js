@@ -71,14 +71,15 @@ module.exports = {
               data: "error",
             })
             .end();
+        }else{
+          res
+            .status(200)
+            .json({
+              status: 1,
+              data: result_insert,
+            })
+            .end();
         }
-        res
-          .status(200)
-          .json({
-            status: 1,
-            data: result_insert,
-          })
-          .end();
       });
     } catch (error) {
       console.log(error);

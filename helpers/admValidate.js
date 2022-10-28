@@ -8,8 +8,6 @@ const Joi = require('joi')
 module.exports = {
     validateBody:(schema)=>{
         return (req,resp,next)=>{
-            // console.log("schema",schema)
-            // const { error, value } = Joi.validate(req.body,schema,{abortEarly:false});
 			const {value,error}  = Joi.validate(req.body, schema, { abortEarly: false });
             // console.log("error",error)
             if(error){

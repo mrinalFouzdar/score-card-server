@@ -34,6 +34,28 @@ module.exports ={
 				});
 		});
 	},
+    findStudenDetails: async(studenet_info)=>{
+        return new Promise((resolve,reject)=>{
+            db.any("select * from student_table where stdnt_class =($1) and stdnt_sec=($2) and stdnt_roll_no=($3) ",
+            [
+                studenet_info.stdnt_class,
+                studenet_info.stdnt_sec,
+                studenet_info.stdnt_roll_no
+            ]
+            )
+            .then(data=>{
+                console.log(data);
+                if(data.length > 0){
+                    resolve({success: true})
+                }else{
+                    resolve({success:false})
+                }
+            })
+            .catch(err=>{
+                reject(err)
+            })
+        })
+    },
 
     addStudentInfo:async(student_data)=>{
         // console.log("student_data", student_data);
@@ -57,13 +79,15 @@ module.exports ={
             });
         })
     },
+
+
     addStudentResult:async(student_data,result_part1)=>{
         // console.log("result_part1", result_part1);
               return  new Promise((resolve,reject)=>{
                     db.one(
                         "INSERT INTO student_result(sub,BA_num,FA_num,Oral_num1,Oral_num2,student_id) VALUES ($1,$2,$3,$4,$5,$6) RETURNING result_id",
                         [
-                            result_part1.sub,
+                           ( result_part1.sub).trim(),
                             result_part1.BA_num,
                             result_part1.FA_num,
                             result_part1.Oral_num1,
