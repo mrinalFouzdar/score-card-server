@@ -203,24 +203,54 @@ module.exports = {
   update_result:async(req,res,next)=>{
     try {
       let count =0;
-      const { studenet_info, result_part1, result_part2, result_part3 } =
+      const { studenet_info, result_part1} =
       req.value;
       
       console.log("studenet_info",studenet_info)
       await adm.updateStudentInfo(studenet_info)
-      .then((data)=>{
-        // console.log("data",data);
+      .then(async(data)=>{
+        // console.log("data",result_part1);
+        let result_insert;
+
+        for (let i = 0; i < result_part1.length; i++) {
+          console.log(result_part1[i])
+          result_insert = await adm.updateStudentResult( result_part1[i]);
+          // if (!result_insert.result_id) {
+          //   count++;
+          // }
+          // console.log("result_insert", result_insert.command)
+          if(result_insert.command !== "UPDATE") {
+            count++;
+          }
+        }
+        if(count>0){
+          res
+          .status(400)
+          .json({
+            status: 1,
+            data: "error",
+          })
+          .end();
+        }else{
+          res
+          .status(200)
+          .json({
+            status: 1,
+            data: "UPDATE",
+          })
+          .end();
+        }
         res
         .status(200)
         .json({
           status: 1,
-          data: data,
+          result_part1: data,
         })
         .end();
 
       })
       .catch(err=>{
-        // console.log(err);
+        console.log(err);
         res
         .status(400)
         .json({

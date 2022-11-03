@@ -151,10 +151,34 @@ module.exports ={
            ]
             )
             .then(data =>{
-                console.log("database",data);
+                // console.log("database",data);
                 resolve(data)
             })
             .catch(err=>{
+                console.log(err)
+                reject(err)
+            })
+        })
+    },
+
+    updateStudentResult: async(result_part1)=>{
+        return new Promise((resolve,reject)=>{
+            db.result("Update student_result set sub=($1), ba_num=($2), fa_num =($3), oral_num1 =($4), oral_num2=($5) where  student_id=($6) and result_id=($7)",
+            [
+                result_part1.sub,
+                result_part1.BA_num,
+                result_part1.FA_num,
+                result_part1.Oral_num1,
+                result_part1.Oral_num2,
+                result_part1.student_id,
+                result_part1.result_id,
+            ]
+            )
+            .then((data)=>{
+                console.log("database",data);
+                resolve(data)
+            })
+            .catch((err)=>{
                 console.log(err)
                 reject(err)
             })
