@@ -72,7 +72,7 @@ passport.use(
         }
 
         const user = await Adm.findByUsername(cryptr.decrypt(payload.name));
-        console.log(user);
+        // console.log("user", user);
         if(user.length>0){
             // console.log("user[0]",user[0]);
 			done(null, user[0]);
@@ -82,7 +82,7 @@ passport.use(
         }
 
     } catch (error) {
-        // console.log(error);
+        console.log(error);
         return done(error,user[0]);
     }
   }

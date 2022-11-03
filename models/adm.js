@@ -1,3 +1,4 @@
+const { resolve, reject } = require('bluebird');
 const db = require('../configuration/dbConfig')
 
 module.exports ={
@@ -61,12 +62,13 @@ module.exports ={
         // console.log("student_data", student_data);
         return new Promise((resolve,reject)=>{
             db.one(
-                "INSERT INTO student_table(stdnt_class,stdnt_roll_no,stdnt_sec,stdnt_name) VALUES ($1,$2,$3,$4) RETURNING student_id",
+                "INSERT INTO student_table(stdnt_class,stdnt_roll_no,stdnt_sec,stdnt_name,status) VALUES ($1,$2,$3,$4,$5) RETURNING student_id",
                 [
                     student_data.stdnt_class,
                     student_data.stdnt_roll_no,
                     student_data.stdnt_sec,
-                    student_data.stdnt_name
+                    student_data.stdnt_name,
+                    student_data.status
                 ]
             )
             .then(function (data) {
@@ -108,6 +110,71 @@ module.exports ={
 
 
     },
+
+    getStudentDeltails: async()=>{
+
+        return new Promise((resolve, reject)=>{
+            db.any("select * from student_table")
+            .then(function(result) { 
+                // console.log("result",result);
+                resolve(result);
+             })
+            .catch(function(err) { 
+                // console.log("err",err);
+                reject(err)
+            })
+        })
+    },
+    getStudentResultByID: async(id)=>{
+        return new Promise((resolve,reject)=>{
+            db.any("select * from student_result where student_id=($1)",[id])
+            .then((data)=>{
+                console.log(data);
+                resolve(data)
+            })
+            .catch((err)=>{
+                console.log(err);
+                reject(err)
+            })
+        })
+    },
+
+    updateStudentInfo:async(student_info)=>{
+        return new Promise((resolve,reject)=>{
+            db.result("Update student_table set stdnt_name=($1), stdnt_roll_no=($2), stdnt_sec=($3),stdnt_class=($4) where student_id=($5)",
+           [
+            student_info.stdnt_name,
+            student_info.stdnt_roll_no,
+            student_info.stdnt_sec,
+            student_info.stdnt_class,
+            student_info.student_id
+           ]
+            )
+            .then(data =>{
+                console.log("database",data);
+                resolve(data)
+            })
+            .catch(err=>{
+                console.log(err)
+                reject(err)
+            })
+        })
+    },
+
+    deleteResult: async(id)=>{
+        return new Promise((resolve,reject)=>{
+            db.result("Update student_table set status='t' where student_id=($1)", [id])
+            .then((data)=>{
+                console.log(data);
+                resolve(data);
+            
+            })
+            .catch((err)=>{
+                console.log(err);
+                reject(err)
+            })
+        })
+    }
 
     
 

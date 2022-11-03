@@ -11,7 +11,7 @@ module.exports={
             console.log("findStudenDetails",findStudenDetails)
 
             if(findStudenDetails.success){
-                console.log("aa")
+                // console.log("aa")
              return  resp.status(400).json({status:3,message:"Student already exist"})
             }else{
                 console.log("next")

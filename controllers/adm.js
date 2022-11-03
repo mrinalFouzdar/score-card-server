@@ -52,8 +52,10 @@ module.exports = {
       let count = 0;
       const { studenet_info, result_part1, result_part2, result_part3 } =
         req.value;
-
-      await adm.addStudentInfo(studenet_info).then(async (resp) => {
+        console.log("studenet_info",studenet_info)
+     const studenet_info1={...studenet_info,status:false}
+      // console.log("studenet_info1",studenet_info1)
+      await adm.addStudentInfo(studenet_info1).then(async (resp) => {
         console.log("resp", resp);
         let result_insert;
         for (let i = 0; i < result_part1.length; i++) {
@@ -92,4 +94,145 @@ module.exports = {
         .end();
     }
   },
+
+  student_list: async (req,res,next)=>{
+    try {
+      await adm.getStudentDeltails()
+      .then((data)=>{
+        // console.log("data",data);
+        res
+        .status(200)
+        .json({
+          status: 1,
+          data: data,
+        })
+        .end();
+
+      })
+      .catch(err=>{
+        // console.log(err);
+        res
+        .status(400)
+        .json({
+          status: 3,
+          message: err,
+        })
+        .end();
+
+      })
+      
+    } catch (error) {
+      console.log(error);
+      res
+      .status(400)
+      .json({
+        status: 3,
+        message: error,
+      })
+      .end();
+    }
+  },
+
+  student_result:async(req,res,next)=>{
+    try {
+      // console.log(req.params.id);
+      const id = req.params.id;
+      console.log(id);
+      await adm.getStudentResultByID(id)
+      .then((data)=>{
+        // console.log("data",data);
+        res
+        .status(200)
+        .json({
+          status: 1,
+          data: data,
+        })
+        .end();
+
+      })
+      .catch(err=>{
+        // console.log(err);
+        res
+        .status(400)
+        .json({
+          status: 3,
+          message: err,
+        })
+        .end();
+
+      })
+      
+    } catch (error) {
+       console.log(error);
+    }
+  },
+
+  delete_result: async(req,res,next)=>{
+    try {
+      const id = req.params.id;
+      
+      await adm.deleteResult(id)
+      .then((data)=>{
+        console.log("data", data)
+        res
+        .status(200)
+        .json({
+          status: 1,
+          message: 'User deleted',
+        })
+        .end();
+
+      })
+      .catch(err=>{
+        // console.log(err);
+        res
+        .status(400)
+        .json({
+          status: 3,
+          message: err,
+        })
+        .end();
+
+      })
+    } catch (error) {
+      console.log(error)
+
+    }
+  },
+
+  update_result:async(req,res,next)=>{
+    try {
+      let count =0;
+      const { studenet_info, result_part1, result_part2, result_part3 } =
+      req.value;
+      
+      console.log("studenet_info",studenet_info)
+      await adm.updateStudentInfo(studenet_info)
+      .then((data)=>{
+        // console.log("data",data);
+        res
+        .status(200)
+        .json({
+          status: 1,
+          data: data,
+        })
+        .end();
+
+      })
+      .catch(err=>{
+        // console.log(err);
+        res
+        .status(400)
+        .json({
+          status: 3,
+          message: err,
+        })
+        .end();
+
+      })
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 };

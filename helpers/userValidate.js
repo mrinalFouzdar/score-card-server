@@ -40,12 +40,28 @@ module.exports = {
         }
     },
 
+    validateParam: (schema) => {
+		return (req, res, next) => {
+			const result = Joi.validate(req.params, schema);
+			if (result.error) {
+				let return_err = { status: 2, errors: 'Invalid argument' };
+				return res.status(400).json(return_err);
+			}
+
+			if (!req.value) {
+				req.value = {};
+			}
+			req.value['params'] = result.value;
+			next();
+		};
+	},
+
 
 
     schemas:{
         userSchema: Joi.object().keys({
             studenet_info: Joi.object().keys({
-                stdnt_name: Joi.string().required().alphanum(),
+                stdnt_name: Joi.string().required(),
                 stdnt_roll_no: Joi.number().required(),
                 stdnt_class: Joi.number().integer().required(),
                 stdnt_sec: Joi.string().required()
@@ -63,7 +79,7 @@ module.exports = {
             ).min(2).required(),
             result_part2: Joi.array().items(
                 Joi.object().keys({
-                    category: Joi.string().required().alphanum(),
+                    category: Joi.string().required(),
                     grade: Joi.string().required(),
                     id: Joi.number().required()
 
@@ -77,7 +93,49 @@ module.exports = {
                     id: Joi.number().required()
                 })
             ).min(1).required()
-        })
+        }),
+        updateSchema: Joi.object().keys({
+            studenet_info: Joi.object().keys({
+                stdnt_name: Joi.string().required(),
+                stdnt_roll_no: Joi.number().required(),
+                stdnt_class: Joi.number().integer().required(),
+                stdnt_sec: Joi.string().required(),
+                student_id:Joi.number().required(),
+            }).required(),
+            result_part1: Joi.array().items(
+                Joi.object().keys({
+                    sub: Joi.string().required(),
+                    BA_num: Joi.number().integer().required(),
+                    FA_num: Joi.number().integer().required(),
+                    Oral_num1: Joi.number().integer().required(),
+                    Oral_num2: Joi.number().integer().required(),
+                    student_id: Joi.number().required()
+
+                })
+            ).min(2).required(),
+            result_part2: Joi.array().items(
+                Joi.object().keys({
+                    category: Joi.string().required(),
+                    grade: Joi.string().required(),
+                    id: Joi.number().required()
+
+                })
+            ).min(2).required(),
+            result_part3: Joi.array().items(
+                Joi.object().keys({
+                    term: Joi.string().required(),
+                    present: Joi.number().integer().required(),
+                    working: Joi.number().integer().required(),
+                    id: Joi.number().required()
+                })
+            ).min(1).required()
+        }),
+        get_admin: Joi.object().keys({
+			id: Joi.number().required(),
+		}),
+        delete_admin: Joi.object().keys({
+			id: Joi.number().required(),
+		}),
     }
 }
 
