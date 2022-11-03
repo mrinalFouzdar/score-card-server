@@ -77,22 +77,22 @@ module.exports = {
 
                 })
             ).min(2).required(),
-            result_part2: Joi.array().items(
-                Joi.object().keys({
-                    category: Joi.string().required(),
-                    grade: Joi.string().required(),
-                    id: Joi.number().required()
+            // result_part2: Joi.array().items(
+            //     Joi.object().keys({
+            //         category: Joi.string().required(),
+            //         grade: Joi.string().required(),
+            //         id: Joi.number().required()
 
-                })
-            ).min(2).required(),
-            result_part3: Joi.array().items(
-                Joi.object().keys({
-                    term: Joi.string().required(),
-                    present: Joi.number().integer().required(),
-                    working: Joi.number().integer().required(),
-                    id: Joi.number().required()
-                })
-            ).min(1).required()
+            //     })
+            // ).min(2).required(),
+            // result_part3: Joi.array().items(
+            //     Joi.object().keys({
+            //         term: Joi.string().required(),
+            //         present: Joi.number().integer().required(),
+            //         working: Joi.number().integer().required(),
+            //         id: Joi.number().required()
+            //     })
+            // ).min(1).required()
         }),
         updateSchema: Joi.object().keys({
             studenet_info: Joi.object().keys({
@@ -109,26 +109,27 @@ module.exports = {
                     FA_num: Joi.number().integer().required(),
                     Oral_num1: Joi.number().integer().required(),
                     Oral_num2: Joi.number().integer().required(),
-                    student_id: Joi.number().required()
+                    student_id: Joi.number().required(),
+                    result_id: Joi.number().required()
 
                 })
             ).min(2).required(),
-            result_part2: Joi.array().items(
-                Joi.object().keys({
-                    category: Joi.string().required(),
-                    grade: Joi.string().required(),
-                    id: Joi.number().required()
+            // result_part2: Joi.array().items(
+            //     Joi.object().keys({
+            //         category: Joi.string().required(),
+            //         grade: Joi.string().required(),
+            //         id: Joi.number().required()
 
-                })
-            ).min(2).required(),
-            result_part3: Joi.array().items(
-                Joi.object().keys({
-                    term: Joi.string().required(),
-                    present: Joi.number().integer().required(),
-                    working: Joi.number().integer().required(),
-                    id: Joi.number().required()
-                })
-            ).min(1).required()
+            //     })
+            // ).min(2).required(),
+            // result_part3: Joi.array().items(
+            //     Joi.object().keys({
+            //         term: Joi.string().required(),
+            //         present: Joi.number().integer().required(),
+            //         working: Joi.number().integer().required(),
+            //         id: Joi.number().required()
+            //     })
+            // ).min(1).required()
         }),
         get_admin: Joi.object().keys({
 			id: Joi.number().required(),
